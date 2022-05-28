@@ -9,11 +9,15 @@ import express from 'express'
 dotenv.config()
 
 const main = async () => {
-  const INFURA_TEST_URL = process.env.INFURA_TESTNET_URL
+  let URL
 
-  global.customHttpProvider = new ethers.providers.JsonRpcProvider(
-    INFURA_TEST_URL
-  )
+  if (process.env.MODE == 'TESTNET') {
+    URL = process.env.INFURA_TESTNET_URL
+  } else {
+    URL = process.env.INFURA_MAINNET_URL
+  }
+
+  global.customHttpProvider = new ethers.providers.JsonRpcProvider(URL)
 
   const app = express()
 
@@ -21,7 +25,11 @@ const main = async () => {
     try {
       const transactionHash = req.query.hash
 
+      console.log(transactionHash)
+
       const transactionData = await getTransactionData(transactionHash)
+
+      console.log(transactionData)
 
       const methodSignature = await getMethodSignature(transactionData)
 
@@ -39,6 +47,7 @@ const main = async () => {
         },
       })
     } catch (error) {
+      console.log(error)
       res.send({
         error: true,
         message: error.message ? error.message : 'Something went wrong.',

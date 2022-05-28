@@ -1,17 +1,21 @@
 import getMethodSignature from './getMethodSignature.js'
 
 const getArgumentsArray = async (transactionData) => {
-  const methodHexCount = transactionData.length % 64
+  try {
+    const methodHexCount = transactionData.length % 64
 
-  const methodHex = transactionData.slice(0, methodHexCount)
+    const methodHex = transactionData.slice(0, methodHexCount)
 
-  const methodSignature = await getMethodSignature(methodHex)
+    const methodSignature = await getMethodSignature(methodHex)
 
-  const regExp = new RegExp(/\((.*?)\)/)
+    const regExp = new RegExp(/\((.*?)\)/)
 
-  const argumentsArray = regExp.exec(methodSignature)[1].split(',')
+    const argumentsArray = regExp.exec(methodSignature)[1].split(',')
 
-  return argumentsArray
+    return argumentsArray
+  } catch (error) {
+    throw new Error('Some error in finding arguments.')
+  }
 }
 
 export default getArgumentsArray

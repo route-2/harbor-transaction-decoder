@@ -1,7 +1,13 @@
 const getTransactionData = async (transactionHash) => {
-  const details = await customHttpProvider.getTransaction(transactionHash)
+  try {
+    const details = await customHttpProvider.getTransaction(transactionHash)
 
-  return details?.data
+    console.log(details)
+
+    return details?.data
+  } catch (error) {
+    throw new Error('Some error in finding transaction byte code.')
+  }
 }
 
 export default getTransactionData
