@@ -9,15 +9,15 @@ import express from 'express'
 dotenv.config()
 
 const main = async () => {
-  let URL
+  const INFURA_TESTNET_URL = process.env.INFURA_TESTNET_URL
+  const INFURA_MAINNET_URL = process.env.INFURA_MAINNET_URL
 
-  if (process.env.MODE == 'TESTNET') {
-    URL = process.env.INFURA_TESTNET_URL
-  } else {
-    URL = process.env.INFURA_MAINNET_URL
-  }
-
-  global.customHttpProvider = new ethers.providers.JsonRpcProvider(URL)
+  global.customTestnetHttpProvider = new ethers.providers.JsonRpcProvider(
+    INFURA_TESTNET_URL
+  )
+  global.customMainnetHttpProvider = new ethers.providers.JsonRpcProvider(
+    INFURA_MAINNET_URL
+  )
 
   const app = express()
   const port = process.env.PORT
@@ -25,10 +25,9 @@ const main = async () => {
   app.get('/', async function (req, res) {
     try {
       const transactionHash = req.query.hash
+      const mode = req.query.mode
 
-      console.log(transactionHash)
-
-      const transactionData = await getTransactionData(transactionHash)
+      const transactionData = await getTransactionData(transactionHash, mode)
 
       console.log(transactionData)
 

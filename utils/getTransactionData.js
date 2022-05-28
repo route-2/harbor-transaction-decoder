@@ -1,8 +1,11 @@
-const getTransactionData = async (transactionHash) => {
+const getTransactionData = async (transactionHash, mode) => {
   try {
-    const details = await customHttpProvider.getTransaction(transactionHash)
-
-    console.log(details)
+    let details
+    if (mode === 'testnet') {
+      details = await customTestnetHttpProvider.getTransaction(transactionHash)
+    } else {
+      details = await customMainnetHttpProvider.getTransaction(transactionHash)
+    }
 
     return details?.data
   } catch (error) {
