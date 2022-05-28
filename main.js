@@ -20,6 +20,7 @@ const main = async () => {
   global.customHttpProvider = new ethers.providers.JsonRpcProvider(URL)
 
   const app = express()
+  const port = process.env.PORT
 
   app.get('/', async function (req, res) {
     try {
@@ -55,7 +56,7 @@ const main = async () => {
     }
   })
 
-  app.listen(3000)
+  app.listen(port)
 }
 
 main().catch((error) => {
