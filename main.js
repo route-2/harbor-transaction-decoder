@@ -5,6 +5,7 @@ import getArgumentsArray from './utils/getArgumentsArray.js'
 import getParametersArray from './utils/getParametersArray.js'
 import getMethodSignature from './utils/getMethodSignature.js'
 import express from 'express'
+import cors from 'cors'
 
 dotenv.config()
 
@@ -54,7 +55,7 @@ const main = async () => {
       })
     }
   })
-
+  app.use(cors())
   app.listen(port)
 }
 
