@@ -55,7 +55,11 @@ const main = async () => {
       })
     }
   })
-  app.use(cors())
+  app.use(
+    cors({
+      origin: '*',
+    })
+  )
   app.listen(port)
 }
 
