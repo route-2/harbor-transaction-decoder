@@ -21,6 +21,11 @@ const main = async () => {
   )
 
   const app = express()
+  app.use(
+    cors({
+      origin: '*',
+    })
+  )
   const port = process.env.PORT
 
   app.get('/', async function (req, res) {
@@ -55,11 +60,7 @@ const main = async () => {
       })
     }
   })
-  app.use(
-    cors({
-      origin: '*',
-    })
-  )
+
   app.listen(port)
 }
 
